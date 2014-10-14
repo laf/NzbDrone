@@ -187,16 +187,18 @@ namespace NzbDrone.Core.IndexerSearch
         private List<DownloadDecision> SearchAnime(Series series, Episode episode)
         {
             var searchSpec = Get<AnimeEpisodeSearchCriteria>(series, new List<Episode> { episode });
-            searchSpec.AbsoluteEpisodeNumber = episode.SceneAbsoluteEpisodeNumber.GetValueOrDefault(0);
 
-            if (searchSpec.AbsoluteEpisodeNumber == 0)
+            if (episode.SceneAbsoluteEpisodeNumber.HasValue)
             {
-                searchSpec.AbsoluteEpisodeNumber = episode.AbsoluteEpisodeNumber.GetValueOrDefault(0);
+                searchSpec.AbsoluteEpisodeNumber = episode.SceneAbsoluteEpisodeNumber.Value;
             }
-
-            if (searchSpec.AbsoluteEpisodeNumber == 0)
+            else if (episode.AbsoluteEpisodeNumber.HasValue)
             {
-                throw new ArgumentOutOfRangeException("AbsoluteEpisodeNumber", "Can not search for an episode absolute episode number of zero");
+                searchSpec.AbsoluteEpisodeNumber = episode.AbsoluteEpisodeNumber.Value;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("AbsoluteEpisodeNumber", "Can not search for an episode without an absolute episode number");
             }
 
             return Dispatch(indexer => indexer.Fetch(searchSpec), searchSpec);

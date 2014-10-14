@@ -49,7 +49,7 @@ namespace NzbDrone.Core.DataAugmentation.Xem
 
                 foreach (var episode in episodes)
                 {
-                    episode.SceneAbsoluteEpisodeNumber = 0;
+                    episode.SceneAbsoluteEpisodeNumber = null;
                     episode.SceneSeasonNumber = 0;
                     episode.SceneEpisodeNumber = 0;
                 }
