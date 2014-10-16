@@ -50,8 +50,8 @@ namespace NzbDrone.Core.DataAugmentation.Xem
                 foreach (var episode in episodes)
                 {
                     episode.SceneAbsoluteEpisodeNumber = null;
-                    episode.SceneSeasonNumber = 0;
-                    episode.SceneEpisodeNumber = 0;
+                    episode.SceneSeasonNumber = null;
+                    episode.SceneEpisodeNumber = null;
                 }
 
                 foreach (var mapping in mappings)
